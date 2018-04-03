@@ -1,0 +1,114 @@
+<html>
+<head>
+  <script src='asyncReq.js'></script>
+  <script src='jquery-3.3.1.min.js'></script>
+  <style>
+      #theList Button{
+          border: 0px;
+          padding: 0px;
+          min-width: 100%;
+          box-shadow: 0px 0px 1px
+      }
+      #theList Button h1{
+          border: 0px;
+        margin: 0px;
+          text-align: left;
+      }
+      #editButton{
+           FLOAT: right;
+    position: relative;
+      right: 10px;
+      }
+    #rssBox{
+      float:left;
+      width: 250px;
+      min-height: 100%;
+      background: black;
+        color: white;
+    } 
+    #theDetails{
+      float:right;
+      width: calc(100% - 250px);
+      min-height: 100%;
+      background: White;
+        text-align: center;
+    }
+  </style>
+  <script>
+  function getDataFromServer(){
+    //var url = "./eval?eq=34-4*45";
+    var url = "https://rss.itunes.apple.com/api/v1/us/apple-music/hot-tracks/all/10/explicit.json";
+    loadFile(url, function(resData){
+      $("#result").val(resData);
+    });
+  }
+
+  var currRSSData = null;
+  function changeRSSSrc()
+  {
+    var feedURL = prompt("Enter your RSS feed URL:");
+    var url = "./getFeedData?url=" + feedURL;
+      loadRSS(url);
+  }
+    function loadRSS(url){ 
+    loadFile(url, function(resData){
+      currRSSData = JSON.parse(resData).feed.results;
+      //var markup = resData;
+      var markup = "";
+      for(var i = 0; i < currRSSData.length; i++){
+        var entry = currRSSData[i];
+        var thumb = entry.artworkUrl100;
+        var name = entry.name;
+        var artist = entry.artistName;
+        markup += "<button onclick='itemSelected(" + i + ")'><img src='" + thumb + "'><h1>" + name+ "</h1><h2>" + artist + "<h2></button>";
+      }
+      $("#theList").html(markup);
+    });
+  }
+
+  function itemSelected(n)
+  {
+      
+    var data = currRSSData[n];
+      var markup = "";
+      var thumbnail = data.artworkUrl100 || "";
+      var title = data.name || "";
+      var link = data.url  || "";
+      var artist = data.artistName || "";
+      //genre
+      //releasedate
+      //copyright
+      
+      markup += "<a target='_blank' href = '"+ link + "'><h1>" + title + "</h1></a>";//makes title a link; blank opens it in new page
+      markup +="<a target='_blank' href = '"+ link + "'><h2>" + artist + "</h2></a>";
+      
+      
+      console.log(data);
+    //var obj = JSON.parse(data);
+      markup += "<img src= '" + thumbnail + "'>";
+    
+    //var items = JSON.stringify(data);
+    $("#theDetails").html(markup);
+      //document.getElelmentBy
+      //var name = entry.name;
+      //var artist = enry.artistname;
+   
+    // document.getElementById("demo").innerHTML = obj.name + ", " + obj.artistname;
+     
+   // $("#theDetails").html(markup);
+  }
+  </script>
+<script> 
+    loadRSS("./getFeedData?url=" + window.location.hash.replace("#", "")); </script>
+</head>
+
+<body>
+<div id='rssBox'>
+	<h1> RSS Reader </h1>
+  <button id='editButton' onclick='changeRSSSrc()'> Edit </button>
+  <div id='theList'></div>
+</div>
+<div id='theDetails'></div>
+
+</body>
+</html>

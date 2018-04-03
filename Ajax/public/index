@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+    <script src = 'asyncReq.js'></script>
+        <script>
+        var calc = function(){
+        
+        }
+        </script>
+        <body>
+        <h1> Simple Calculator </h1>
+            
+            <input id ='inpA' type = 'number'>
+            <select id ='op'>
+                <option> cal = '+'>+</option>
+                 <option> cal = '-'>-</option>
+                 <option> cal = '*'>*</option>
+                 <option> cal = '/'>/</option>
+            </select>
+            
+            <input id = 'inpB' type = 'number' >
+            <button onClick = "calc()"> Calculate </button>
+            <h1 id = 'result'></h1></body>
+    
+    
+    
+    
+    
+    
+    </head>
+</html>

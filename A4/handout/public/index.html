@@ -69,7 +69,10 @@
       width: calc(100% - 250px);
       min-height: 100%;
       background: lightgray;
+        
       text-align:center;
+        background-repeat:no-repeat;
+        background-position: 50%;
     }
   </style>
   <script>
@@ -144,7 +147,10 @@
     var currName = currRSSFeedList[n].name;
     var id = currRSSFeedList[n].id;
     var imgURL = currRSSFeedList[n].url;
-    alert(imgURL);
+     document.getElementById("theDetails").style.backgroundImage = "url(" + imgURL + ")";
+      
+      $("#theImageList .item").removeClass("active");
+    $("#theImageList .item:nth-of-type(" + (n+1) + ")").addClass("active");
   }
 
   function start()

@@ -174,14 +174,17 @@ body{
         start();
     })
   }
+      
+      var currSelection;
 
   function imgSelected(n)
   {
+      currSelection = n;
     var currName = currRSSFeedList[n].name;
     var id = currRSSFeedList[n].id;
     var imgURL = currRSSFeedList[n].url;
     //resetFilters();
-      setFilters(n);
+      setFilters(n)
     // Instead of the above resetFilters(), init the filters stored by user and apply it!
     document.getElementById("theDetails").style.backgroundImage = "url(" + imgURL + ")";
    
@@ -210,6 +213,7 @@ body{
               markup += "</div>";
           }
           $("#theImageList").html(markup);
+            imgSelected(0);
         }     
         ac.hide();
     });
@@ -252,6 +256,7 @@ body{
   }
       
       function setFilters(){
+          var n = currSelection;
           var obj = currRSSFeedList[n];
       document.getElementById("blur").value = obj.blur || "0";
       document.getElementById("brightness").value = obj.brightness || "100";
@@ -303,10 +308,34 @@ body{
       filter += " sepia(" + sepia + ") ";
 
       document.getElementById("theDetails").style.filter = filter;
+      currRSSFeedList[n].blur = parseInt(blur);
+      currRSSFeedList[n].brightness = parseInt(brightness);
+      currRSSFeedList[n].contrast = parseInt(contrast);
+      currRSSFeedList[n].grayscale = parseInt(grayscale);
+      currRSSFeedList[n].hueRotate = parseInt(hueRotate);
+      currRSSFeedList[n].invert = parseInt(invert);
+      currRSSFeedList[n].opacity = parseInt(opacity);
+      currRSSFeedList[n].saturate = parseInt(saturate);
+      currRSSFeedList[n].sepia = parseInt(sepia);
       
-      
-      
+      var url = "./updateImg?id=" + currRSSFeedList[n].id 
+        + "&blur=" + parseInt(blur)
+        + "&brightness=" + parseInt(brightness)
+        + "&contrast=" + parseInt(contrast)
+        + "&grayscale=" + parseInt(grayscale)
+        + "&hueRotate=" + parseInt(hueRotate)
+        + "&invert=" + parseInt(invert)
+        + "&opacity=" + parseInt(opacity)
+        + "&saturate=" + parseInt(saturate)
+        + "&sepia=" + parseInt(sepia);
+
+        loadFile(url, function(resData){
+        });
   }
+      
+      
+      
+  
   </script>
 
 </head>
